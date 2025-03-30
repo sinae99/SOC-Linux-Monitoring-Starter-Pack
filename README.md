@@ -1,8 +1,8 @@
 ## SOC - Linux Monitoring Starter Pack
 
-These are basic metrics for Unix-based systems to help start investigations in a SOC environment.
+These are basic metrics that I think can be useful in the first steps of setting up Linux monitoring and starting investigations in a SOC environment
 
-A list for teams new to Linux monitoring, covering elementary things to track from scratch
+A list for teams covering elementary things to track from scratch
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -52,11 +52,60 @@ This helps us to understand what is happening and gives feedback on company serv
 Detecting potential brute force for root account
 
 ```
-index=linux_index sourcetype=auth_logs "failed password" OR "authentication failure"
+index=linux_index sourcetype=authentication_logs "failed password" OR "authentication failure"
 | search user="root" OR user="sudo"
 | stats count by user, src_ip, _time
 ```
 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### "High Number of Failed Logins in a Short Time"
+based on your company threshold
+
+```
+index=linux_logs sourcetype=authentication_logs "Failed password"
+| bin _time span=10m
+| stats count by _time, user, host
+| where count > 10
+```
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### "Adding, Removing, and Modifying Cron Jobs"
+
+```crontab -e ```
+
+```sudo crontab -r  ```
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### "Any Change in sudoers File"
+One of the most important files in the system
+
+```
+index=linux_logs sourcetype=authentication_logs "sudoers" OR "visudo"
+| stats count by user, action, _time, host
+```
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### "New User Created or Deleted"
+For detecting unauthorized changes, especially those made without permission or out of company plan 
+
+```sudo useradd JavadBellingham ```
+
+```sudo userdel JavadBellingham ```
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### "New Services Installed or Modified"
+For detecting unauthorized software installation
+
+```sudo apt-get install apache2```
+
+```sudo dnf install mysql-server```
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
