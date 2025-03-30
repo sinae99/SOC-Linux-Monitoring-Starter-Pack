@@ -1,12 +1,12 @@
-## SOC - Linux Monitoring Starter Pack
+## SOC - Linux Monitoring Starter Pack 
 
 These are basic metrics that I think can be useful in the first steps of setting up Linux monitoring and starting investigations in a SOC environment
 
-A list for teams covering elementary things to track from scratch
+A list for teams covering elementary things to track from scratch ⚡
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-### "Critical Services Stop"
+### "Critical Services Stop" 
 Monitoring the stopping of critical services like `auditd`, `sshd`, `httpd` or `syslog`
 
 ```
@@ -31,8 +31,7 @@ Tracking the shutdown and reboot of critical servers
 to identify system failures or unauthorized actions
 
 
-```sudo shutdown -h now```
-
+ ```sudo shutdown -h now``` 
 ``` sudo init 6```
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
